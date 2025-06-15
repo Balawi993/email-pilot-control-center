@@ -1,4 +1,5 @@
 
+import { useState, Fragment } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -11,12 +12,13 @@ import {
     RectangleHorizontal, 
     Minus, 
     Code, 
-    Star
+    Star,
+    Pencil
 } from 'lucide-react';
-import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const contentBlocks = [
   { name: 'Title', icon: Type },
@@ -30,55 +32,56 @@ const contentBlocks = [
 ];
 
 const CreateTemplate = () => {
-    const [activeStep, setActiveStep] = useState('setup');
-    const [templateName, setTemplateName] = useState('Untitled');
+    const [step, setStep] = useState('setup');
+    const STEPS = ['Setup', 'Design', 'Content', 'Send'];
+    const currentStepIndex = STEPS.findIndex(s => s.toLowerCase() === step);
 
-    // A dynamic stepper component
-    const Stepper = ({ currentStep }: { currentStep: string }) => {
-        const steps = ['Setup', 'Design', 'Content', 'Send'];
-        const currentStepIndex = steps.findIndex(step => step.toLowerCase() === currentStep);
-
-        return (
-            <div className="hidden lg:flex items-center gap-2 text-sm text-gray-600">
-                {steps.map((step, index) => (
-                    <React.Fragment key={step}>
-                        <div className={`flex items-center gap-2 ${
-                            index < currentStepIndex ? 'text-primary' : 
-                            index === currentStepIndex ? 'font-semibold text-primary' : 'text-gray-400'
-                        }`}>
-                            {index < currentStepIndex ? (
-                                <CheckCircle2 className="h-4 w-4" />
-                            ) : index === currentStepIndex ? (
-                                <span className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center">
-                                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                                </span>
-                            ) : (
-                                <span className="w-4 h-4 rounded-full border-2 border-gray-400"></span>
-                            )}
-                            <span>{step}</span>
-                        </div>
-                        {index < steps.length - 1 && (
-                            <Separator orientation="vertical" className="h-4 bg-gray-300 mx-2" />
-                        )}
-                    </React.Fragment>
-                ))}
-            </div>
-        );
+    const handleNext = () => {
+        const nextStepIndex = currentStepIndex + 1;
+        if (nextStepIndex < STEPS.length) {
+            setStep(STEPS[nextStepIndex].toLowerCase());
+        }
     };
+
+    // A simplified stepper component
+    const Stepper = () => (
+        <div className="hidden lg:flex items-center gap-2 text-sm text-gray-600">
+            {STEPS.map((s, index) => (
+                <Fragment key={s}>
+                    <div className={`flex items-center gap-2 transition-colors ${index === currentStepIndex ? 'font-semibold text-primary' : ''} ${index > currentStepIndex ? 'text-gray-400' : index < currentStepIndex ? 'text-primary' : 'text-gray-600'}`}>
+                        {index < currentStepIndex ? (
+                            <CheckCircle2 className="h-4 w-4" />
+                        ) : index === currentStepIndex ? (
+                            <span className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center">
+                                <span className="w-2 h-2 rounded-full bg-primary"></span>
+                            </span>
+                        ) : (
+                            <span className="w-4 h-4 rounded-full border-2 border-gray-400"></span>
+                        )}
+                        <span>{s}</span>
+                    </div>
+                    {index < STEPS.length - 1 && <Separator orientation="vertical" className="h-4 bg-gray-300 mx-2" />}
+                </Fragment>
+            ))}
+        </div>
+    );
 
     return (
         <div className="flex flex-col h-[calc(100vh-64px)] bg-background -mt-10 -mb-10 -mx-8">
             {/* Header */}
             <header className="bg-white p-4 border-b flex justify-between items-center shrink-0">
                 <div className="flex items-center gap-2">
-                    <h1 className="text-xl font-bold text-gray-800">{templateName}</h1>
+                    <h1 className="text-xl font-bold text-gray-800">Untitled</h1>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Pencil className="h-4 w-4" />
+                    </Button>
                 </div>
                 <div className="flex-grow flex justify-center">
-                    <Stepper currentStep={activeStep} />
+                    <Stepper />
                 </div>
                 <div className="flex items-center gap-2">
                     <Button variant="outline">Preview & test</Button>
-                    <Button>Save & next</Button>
+                    <Button onClick={handleNext}>Save & next</Button>
                 </div>
             </header>
 
@@ -86,30 +89,43 @@ const CreateTemplate = () => {
             <div className="flex-1 flex overflow-hidden">
                 {/* Left Sidebar */}
                 <aside className="w-80 bg-white border-r p-6 overflow-y-auto shrink-0">
-                    <Tabs defaultValue="setup" onValueChange={setActiveStep} className="w-full">
+                    <Tabs value={step} onValueChange={(value) => setStep(value)} className="w-full">
                         <TabsList className="grid w-full grid-cols-3">
                             <TabsTrigger value="setup">Setup</TabsTrigger>
                             <TabsTrigger value="design">Design</TabsTrigger>
                             <TabsTrigger value="content">Content</TabsTrigger>
                         </TabsList>
                         <TabsContent value="setup" className="mt-6">
+                            <h2 className="text-lg font-semibold mb-2">Setup</h2>
+                            <p className="text-sm text-muted-foreground mb-4">Configure your template settings.</p>
                             <div className="space-y-4">
-                                <div>
+                                <div className="space-y-2">
                                     <Label htmlFor="template-name">Template Name</Label>
-                                    <Input 
-                                        id="template-name" 
-                                        value={templateName} 
-                                        onChange={(e) => setTemplateName(e.target.value)}
-                                        className="mt-1"
-                                    />
+                                    <Input id="template-name" defaultValue="The announcement template" />
                                 </div>
-                                <p className="text-sm text-muted-foreground">This is for internal use only.</p>
+                                <div className="space-y-2">
+                                    <Label htmlFor="subject">Subject</Label>
+                                    <Input id="subject" defaultValue="Introducing our new feature!" />
+                                </div>
                             </div>
                         </TabsContent>
                         <TabsContent value="design" className="mt-6">
-                            <div className="text-center py-12">
-                                <p className="text-sm text-muted-foreground">Global design settings will appear here.</p>
-                            </div>
+                             <h2 className="text-lg font-semibold mb-2">Design</h2>
+                            <p className="text-sm text-muted-foreground mb-4">Customize the look and feel.</p>
+                             <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
+                                <AccordionItem value="item-1">
+                                    <AccordionTrigger>Page Styles</AccordionTrigger>
+                                    <AccordionContent>
+                                        Here you can add controls for background color, content alignment, etc.
+                                    </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="item-2">
+                                    <AccordionTrigger>Typography</AccordionTrigger>
+                                    <AccordionContent>
+                                        Here you can add controls for default fonts, colors, and sizes.
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
                         </TabsContent>
                         <TabsContent value="content" className="mt-6">
                             <h2 className="text-lg font-semibold mb-2">Content</h2>
@@ -155,3 +171,4 @@ const CreateTemplate = () => {
 };
 
 export default CreateTemplate;
+
