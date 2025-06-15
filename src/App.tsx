@@ -18,6 +18,7 @@ import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CreateTemplate from "./pages/CreateTemplate";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
                 <Route path="/campaigns" element={<Campaigns />} />
                 <Route path="/automations" element={<Automations />} />
                 <Route path="/templates" element={<Templates />} />
+                <Route path="/templates/create" element={<CreateTemplate />} />
                 <Route path="/reports" element={<Reports />} />
                 <Route path="/ui-guide" element={<UIGuide />} />
               </Route>

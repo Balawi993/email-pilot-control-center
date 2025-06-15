@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const templates = [
     { name: 'Weekly Newsletter', lastUpdated: '2025-06-10' },
@@ -18,9 +19,11 @@ const Templates = () => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-gray-800">Templates</h1>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Create Template
+        <Button asChild>
+          <Link to="/templates/create">
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Create Template
+          </Link>
         </Button>
       </div>
   
