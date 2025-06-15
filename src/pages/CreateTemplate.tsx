@@ -76,13 +76,13 @@ const CreateTemplate = () => {
             {/* Main Content */}
             <div className="flex-1 flex overflow-hidden">
                 {/* Left Sidebar */}
-                <aside className="w-72 bg-white border-r p-6 overflow-y-auto">
+                <aside className="w-72 bg-white border-r p-6 overflow-y-auto shrink-0">
                     <h2 className="text-lg font-semibold mb-2">Content</h2>
                     <p className="text-sm text-muted-foreground mb-4">Drag and drop content</p>
                     <div className="grid grid-cols-2 gap-3">
                         {contentBlocks.map(block => (
-                            <Card key={block.name} className="p-4 flex flex-col items-center justify-center aspect-square cursor-grab hover:bg-accent/10 transition-colors active:cursor-grabbing">
-                                <block.icon className="h-7 w-7 text-gray-500 mb-2" />
+                            <Card key={block.name} className="p-3 flex flex-col items-center justify-center aspect-square cursor-grab hover:bg-accent/10 transition-colors active:cursor-grabbing">
+                                <block.icon className="h-6 w-6 text-gray-500 mb-2" />
                                 <span className="text-xs font-medium text-center">{block.name}</span>
                             </Card>
                         ))}
@@ -91,16 +91,16 @@ const CreateTemplate = () => {
 
                 {/* Canvas */}
                 <main className="flex-1 p-8 overflow-y-auto bg-muted/40">
-                    <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-10">
-                         <div className="text-center py-8 border-dashed border-2 rounded-lg bg-gray-50">
-                            <Star className="h-10 w-10 text-gray-300 mx-auto mb-2" />
+                    <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8">
+                         <div className="text-center py-6 border-dashed border-2 rounded-lg bg-gray-50">
+                            <Star className="h-8 w-8 text-gray-300 mx-auto mb-2" />
                             <p className="text-sm text-muted-foreground">Logo</p>
                         </div>
-                        <div className="text-center py-16 border-dashed border-2 rounded-lg mt-6 bg-gray-50">
-                            <ImageIcon className="h-14 w-14 text-gray-300 mx-auto mb-2" />
+                        <div className="text-center py-12 border-dashed border-2 rounded-lg mt-4 bg-gray-50">
+                            <ImageIcon className="h-10 w-10 text-gray-300 mx-auto mb-2" />
                              <p className="text-sm text-muted-foreground">Image</p>
                         </div>
-                        <div className="mt-8 text-center">
+                        <div className="mt-6 text-center">
                             <p className="text-sm text-muted-foreground">Introducing you to:</p>
                             <h2 className="text-3xl font-bold my-2">The announcement template</h2>
                             <p className="text-muted-foreground max-w-lg mx-auto">
