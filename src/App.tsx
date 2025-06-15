@@ -4,7 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
 import Contacts from "./pages/Contacts";
 import Campaigns from "./pages/Campaigns";
 import Automations from "./pages/Automations";
@@ -13,6 +12,8 @@ import Reports from "./pages/Reports";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 import UIGuide from "./pages/UIGuide";
+import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
 
 const queryClient = new QueryClient();
 
@@ -22,18 +23,19 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Index />} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route element={<Layout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/automations" element={<Automations />} />
             <Route path="/templates" element={<Templates />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/ui-guide" element={<UIGuide />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 
 const Header = () => {
   const navLinks = [
-    { name: 'Dashboard', href: '/' },
+    { name: 'Dashboard', href: '/dashboard' },
     { name: 'Contacts', href: '/contacts' },
     { name: 'Campaigns', href: '/campaigns' },
     { name: 'Automations', href: '/automations', disabled: true },
@@ -28,7 +28,7 @@ const Header = () => {
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="/dashboard" className="flex items-center space-x-2">
               <Mail className="h-7 w-7 text-primary" />
               <span className="font-bold text-xl text-gray-800">EmailPilot</span>
             </Link>
