@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ChevronDown, Search } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 const contacts = [
   { email: 'olivia.martin@email.com', firstName: 'Olivia', lastName: 'Martin', added: '2025-06-14', lastChanged: '2025-06-15', status: 'Subscribed' },
@@ -21,12 +22,12 @@ const Contacts = () => {
         <h1 className="text-3xl font-bold text-gray-800">Contacts</h1>
         <div className="flex items-center space-x-2">
           <DropdownMenu>
-            <Button asChild>
-                <DropdownMenuTrigger className="flex items-center">
+            <DropdownMenuTrigger asChild>
+                <Button>
                     Add Contact
                     <ChevronDown className="ml-2 h-4 w-4" />
-                </DropdownMenuTrigger>
-            </Button>
+                </Button>
+            </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>Add a single contact</DropdownMenuItem>
               <DropdownMenuItem>Import from CSV</DropdownMenuItem>
@@ -64,6 +65,7 @@ const Contacts = () => {
                     <TableHead>Last Name</TableHead>
                     <TableHead>Added</TableHead>
                     <TableHead>Last Changed</TableHead>
+                    <TableHead>Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -74,6 +76,11 @@ const Contacts = () => {
                       <TableCell>{contact.lastName}</TableCell>
                       <TableCell>{contact.added}</TableCell>
                       <TableCell>{contact.lastChanged}</TableCell>
+                      <TableCell>
+                        <Badge variant={contact.status === 'Subscribed' ? 'default' : 'secondary'}>
+                          {contact.status}
+                        </Badge>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
