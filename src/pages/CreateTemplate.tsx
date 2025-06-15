@@ -28,41 +28,74 @@ const contentBlocks = [
   { name: 'Code', icon: Code },
 ];
 
+const STEPS = [
+    { id: 'setup', label: 'Setup' },
+    { id: 'design', label: 'Design' },
+    { id: 'content', label: 'Content' },
+    { id: 'send', label: 'Send' },
+];
+
 const CreateTemplate = () => {
-    const [step, setStep] = useState('setup'); // 'setup', 'design', 'content', 'send'
+    const [step, setStep] = useState(STEPS[0].id);
     const [templateName, setTemplateName] = useState('Untitled');
 
+    const currentStepIndex = STEPS.findIndex(s => s.id === step);
+    const isLastStep = currentStepIndex === STEPS.length - 1;
+
     const handleNext = () => {
-        const steps = ['setup', 'design', 'content', 'send'];
-        const currentStepIndex = steps.indexOf(step);
-        if (currentStepIndex < steps.length - 1) {
-            setStep(steps[currentStepIndex + 1]);
+        if (!isLastStep) {
+            setStep(STEPS[currentStepIndex + 1].id);
+        }
+        // TODO: Add save logic for the last step
+    };
+
+    const handleStepClick = (clickedStepId: string) => {
+        const clickedStepIndex = STEPS.findIndex(s => s.id === clickedStepId);
+        // Allow navigation only to previous/completed steps
+        if (clickedStepIndex < currentStepIndex) {
+            setStep(clickedStepId);
         }
     };
 
     const Stepper = () => {
-        const steps = ['Setup', 'Design', 'Content', 'Send'];
-        const currentStepIndex = steps.findIndex(s => s.toLowerCase() === step);
-
         return (
-            <div className="hidden lg:flex items-center gap-2 text-sm text-gray-600">
-                {steps.map((s, index) => (
-                    <React.Fragment key={s}>
-                        <div className={`flex items-center gap-2 ${currentStepIndex >= index ? 'text-primary' : 'text-gray-400'} ${currentStepIndex === index ? 'font-semibold' : ''}`}>
-                            {currentStepIndex > index ? (
+            <div className="hidden lg:flex items-center gap-4 text-sm text-gray-600">
+                {STEPS.map(({ id, label }, index) => {
+                    const isCompleted = index < currentStepIndex;
+                    const isCurrent = index === currentStepIndex;
+
+                    const stepElement = (
+                        <div
+                            key={id}
+                            onClick={() => isCompleted && handleStepClick(id)}
+                            className={`flex items-center gap-2 ${
+                                isCompleted || isCurrent ? 'text-primary' : 'text-gray-400'
+                            } ${isCurrent ? 'font-semibold' : ''} ${
+                                isCompleted ? 'cursor-pointer hover:text-primary/80 transition-colors' : 'cursor-default'
+                            }`}
+                        >
+                            {isCompleted ? (
                                 <CheckCircle2 className="h-4 w-4" />
-                            ) : currentStepIndex === index ? (
+                            ) : isCurrent ? (
                                 <span className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center">
                                     <span className="w-2 h-2 rounded-full bg-primary"></span>
                                 </span>
                             ) : (
                                 <span className="w-4 h-4 rounded-full border-2 border-gray-400"></span>
                             )}
-                            <span>{s}</span>
+                            <span>{label}</span>
                         </div>
-                        {index < steps.length - 1 && <Separator orientation="vertical" className="h-4 bg-gray-300 mx-2" />}
-                    </React.Fragment>
-                ))}
+                    );
+
+                    if (index < STEPS.length - 1) {
+                        // Return array which will be flattened by React
+                        return [
+                            stepElement,
+                            <Separator key={`sep-${id}`} orientation="vertical" className="h-4 bg-gray-300" />,
+                        ];
+                    }
+                    return stepElement;
+                })}
             </div>
         );
     };
@@ -79,7 +112,7 @@ const CreateTemplate = () => {
                 </div>
                 <div className="flex items-center gap-2">
                     <Button variant="outline">Preview & test</Button>
-                    <Button onClick={handleNext}>Save & next</Button>
+                    <Button onClick={handleNext}>{isLastStep ? 'Save Template' : 'Save & next'}</Button>
                 </div>
             </header>
 
@@ -95,7 +128,7 @@ const CreateTemplate = () => {
                                 <Card key={block.name} className="p-3 flex flex-col items-center justify-center aspect-square cursor-grab hover:bg-accent/10 transition-colors active:cursor-grabbing">
                                     <block.icon className="h-6 w-6 text-gray-500 mb-2" />
                                     <span className="text-xs font-medium text-center">{block.name}</span>
-                                </Card>
+                                 </Card>
                             ))}
                         </div>
                     </aside>
@@ -147,6 +180,13 @@ const CreateTemplate = () => {
                                     Don't have anything to announce? You could also use this template for welcoming users to your mailing list or thanking them for an event you've run.
                                 </p>
                             </div>
+                        </div>
+                    )}
+                    {/* Placeholder for the 'send' step content */}
+                    {step === 'send' && (
+                        <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8">
+                            <h2 className="text-2xl font-bold mb-4">Send Template</h2>
+                            <p className="text-muted-foreground">This is the final step. Review your template and send it out.</p>
                         </div>
                     )}
                 </main>
