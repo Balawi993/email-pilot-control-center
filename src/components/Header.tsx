@@ -17,7 +17,7 @@ const Header = () => {
     { name: 'Dashboard', href: '/' },
     { name: 'Contacts', href: '/contacts' },
     { name: 'Campaigns', href: '/campaigns' },
-    { name: 'Automations', href: '/automations' },
+    { name: 'Automations', href: '/automations', disabled: true },
     { name: 'Templates', href: '/templates' },
     { name: 'Reports', href: '/reports' },
   ];
@@ -32,22 +32,34 @@ const Header = () => {
               <span className="font-bold text-xl text-gray-800">EmailPilot</span>
             </Link>
             <nav className="hidden md:flex space-x-1">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.name}
-                  to={link.href}
-                  className={({ isActive }) =>
-                    cn(
-                      "px-3 py-2 rounded-md text-sm font-medium",
-                      isActive
-                        ? "bg-primary/10 text-primary"
-                        : "text-gray-600 hover:bg-gray-100"
-                    )
-                  }
-                >
-                  {link.name}
-                </NavLink>
-              ))}
+              {navLinks.map((link) =>
+                link.disabled ? (
+                  <span
+                    key={link.name}
+                    className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-400 cursor-not-allowed"
+                  >
+                    {link.name}
+                    <span className="ml-2 text-xs bg-gray-200 text-gray-500 rounded-full px-2 py-0.5">
+                      Soon
+                    </span>
+                  </span>
+                ) : (
+                  <NavLink
+                    key={link.name}
+                    to={link.href}
+                    className={({ isActive }) =>
+                      cn(
+                        "px-3 py-2 rounded-md text-sm font-medium",
+                        isActive
+                          ? "bg-primary/10 text-primary"
+                          : "text-gray-600 hover:bg-gray-100"
+                      )
+                    }
+                  >
+                    {link.name}
+                  </NavLink>
+                )
+              )}
             </nav>
           </div>
           <div className="flex items-center space-x-4">
