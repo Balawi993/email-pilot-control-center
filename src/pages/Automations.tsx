@@ -1,8 +1,13 @@
 
+import { Clock } from 'lucide-react';
+
 const Automations = () => (
-  <div className="text-center py-20">
-    <h1 className="text-3xl font-bold text-gray-800">Automations</h1>
-    <p className="mt-4 text-muted-foreground">Create and manage your automations here.</p>
+  <div className="flex flex-col items-center justify-center text-center py-20 h-[60vh]">
+    <Clock className="h-16 w-16 text-primary mb-6" />
+    <h1 className="text-4xl font-bold text-gray-800">قريباً!</h1>
+    <p className="mt-4 max-w-md text-muted-foreground">
+      نحن نعمل بجد لنقدم لك ميزات الأتمتة القوية. ترقب التحديثات!
+    </p>
   </div>
 );
 export default Automations;
