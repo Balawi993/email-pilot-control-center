@@ -1,7 +1,7 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Circle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const checklistItems = [
@@ -19,6 +19,7 @@ const SetupChecklist = () => {
         <Card>
             <CardHeader>
                 <CardTitle>Let's get you set up</CardTitle>
+                <CardDescription>Complete the steps below to get your account ready.</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="flex items-center space-x-4 mb-4">
@@ -38,7 +39,7 @@ const SetupChecklist = () => {
                                     to={item.link}
                                     className="flex items-center p-2 rounded-md hover:bg-accent/50 transition-colors group text-card-foreground"
                                 >
-                                    <CheckCircle2 className="h-5 w-5 mr-3 text-gray-300 group-hover:text-primary transition-colors" />
+                                    <Circle className="h-5 w-5 mr-3 text-gray-400 group-hover:text-primary transition-colors" />
                                     <span className="font-medium">{item.text}</span>
                                 </Link>
                             )}
