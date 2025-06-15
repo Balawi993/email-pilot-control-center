@@ -20,6 +20,7 @@ const Header = () => {
     { name: 'Automations', href: '/automations', disabled: true },
     { name: 'Templates', href: '/templates' },
     { name: 'Reports', href: '/reports' },
+    { name: 'UI Guide', href: '/ui-guide' },
   ];
 
   return (

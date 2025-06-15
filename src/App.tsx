@@ -12,6 +12,7 @@ import Templates from "./pages/Templates";
 import Reports from "./pages/Reports";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
+import UIGuide from "./pages/UIGuide";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/automations" element={<Automations />} />
             <Route path="/templates" element={<Templates />} />
             <Route path="/reports" element={<Reports />} />
+            <Route path="/ui-guide" element={<UIGuide />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
