@@ -11,8 +11,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Header = () => {
+  const { user, logout } = useAuth();
+
   const navLinks = [
     { name: 'Dashboard', href: '/dashboard' },
     { name: 'Contacts', href: '/contacts' },
@@ -78,15 +81,15 @@ const Header = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>
-                    <p className="font-medium">User Name</p>
-                    <p className="text-xs text-muted-foreground font-normal">user@emailpilot.com</p>
+                    <p className="font-medium">{user!.fullName}</p>
+                    <p className="text-xs text-muted-foreground font-normal">{user!.email}</p>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Billing</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
+                <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

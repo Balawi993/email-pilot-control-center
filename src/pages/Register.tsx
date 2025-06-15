@@ -3,45 +3,93 @@ import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+import { useAuth } from "@/contexts/AuthContext"
+
+const registerSchema = z.object({
+  fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
+  email: z.string().email({ message: "Invalid email address." }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+})
 
 const RegisterPage = () => {
+  const { register } = useAuth();
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+    },
+  })
+
+  const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+    await register(values);
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <Card className="mx-auto w-full max-w-sm">
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">إنشاء حساب جديد</CardTitle>
+          <CardTitle className="text-xl">Create an account</CardTitle>
           <CardDescription>
-            أدخل معلوماتك لإنشاء حساب
+            Enter your information to create an account
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-                <Label htmlFor="full-name">الاسم الكامل</Label>
-                <Input id="full-name" placeholder="مثال: خالد محمد" required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email">البريد الإلكتروني</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="fullName"
+                render={({ field }) => (
+                  <FormItem className="text-left">
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">كلمة المرور</Label>
-              <Input id="password" type="password" required/>
-            </div>
-            <Button type="submit" className="w-full">
-              إنشاء حساب
-            </Button>
-          </div>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="text-left">
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="m@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="text-left">
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full">
+                Create Account
+              </Button>
+            </form>
+          </Form>
           <div className="mt-4 text-center text-sm">
-            لديك حساب بالفعل؟{" "}
+            Already have an account?{" "}
             <Link to="/login" className="underline">
-              سجل الدخول
+              Login
             </Link>
           </div>
         </CardContent>

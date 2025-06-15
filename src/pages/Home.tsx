@@ -11,16 +11,16 @@ const Home = () => {
               <Mail className="h-10 w-10 text-primary" />
               <span className="font-bold text-4xl text-gray-800">EmailPilot</span>
             </div>
-            <h1 className="text-3xl font-bold mb-2 text-gray-800">رحلة التسويق عبر بريدك الإلكتروني تبدأ هنا</h1>
+            <h1 className="text-3xl font-bold mb-2 text-gray-800">Your Email Marketing Journey Starts Here</h1>
             <p className="text-lg text-muted-foreground mb-8 max-w-md">
-                صمم حملات رائعة، وأدر جهات اتصالك، وزد جمهورك، كل ذلك من مكان واحد.
+                Design beautiful campaigns, manage your contacts, and grow your audience, all from one place.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
                 <Button asChild size="lg">
-                    <Link to="/login">تسجيل الدخول</Link>
+                    <Link to="/login">Login</Link>
                 </Button>
                 <Button asChild size="lg" variant="secondary">
-                    <Link to="/register">إنشاء حساب</Link>
+                    <Link to="/register">Create Account</Link>
                 </Button>
             </div>
         </div>
